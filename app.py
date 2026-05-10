@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 app = Flask(__name__)
@@ -35,7 +35,27 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
+        return redirect('/')
     return render_template('register.html')
 
+@app.route("/update/<sno>", methods = ["GET", "POST"])
+def update(sno):
+    user = User.query.filter_by(sno=sno).first()
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user.username = username
+        user.password = password
+        db.session.add(user)
+        db.session.commit()
+        return redirect('/')
+    return render_template('update.html', user = user)
+
+@app.route("/delete/<sno>", methods = ["GET", "POST"])
+def delete(sno):
+    user = User.query.filter_by(sno=sno).first()
+    db.session.delete(user)
+    db.session.commit()
+    return redirect('/')
 if __name__ == "__main__":
     app.run(debug=True)

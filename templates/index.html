@@ -11,6 +11,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Username</th>
                 <th scope="col">Password</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
 
@@ -20,6 +21,9 @@
                     <th scope="row">{{loop.index}}</th>
                     <td>{{user.username}}</td>
                     <td>{{user.password}}</td>
+                    <td><a href="/update/{{user.sno}}" class="btn btn-primary">Update</a>
+                    <a href="/delete/{{user.sno}}" class="btn btn-danger">Delete</a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
